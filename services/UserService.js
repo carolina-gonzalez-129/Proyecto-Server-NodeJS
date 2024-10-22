@@ -30,6 +30,7 @@ class UserService{
             const user = await User.create({name,mail,password})
             return user;
         }catch (e) {
+            console.error("Error al crear :", error);
          throw e;
         }
 
@@ -41,6 +42,8 @@ class UserService{
             if (!user) {
                 throw new Error('Usuario no encontrado');
             }
+
+            console.log(updatedData)
             await user.update(updatedData);
             return user;
         } catch (e) {

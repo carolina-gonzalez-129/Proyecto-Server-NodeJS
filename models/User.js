@@ -36,7 +36,7 @@ User.init({
         allowNull:false,
         validate:{
             len: {
-                args: [6, 100], // longitud mínima de la contraseña
+                args: [6, 100],
                 msg: "la long min es 6 y la max 100"
             }
         }

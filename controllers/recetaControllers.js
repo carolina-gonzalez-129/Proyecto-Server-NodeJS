@@ -11,7 +11,8 @@ class RecetaControllers{
         }
     };
     getRecetaById = async (req, res) => {
-        const receta = await this.recetaService.getRecetaByIdService()
+        const {id}= req.params;
+        const receta = await this.recetaService.getRecetaByIdService(id)
         res.status(200).send(receta);
     };
     createReceta = async (req, res) => {
@@ -23,15 +24,18 @@ class RecetaControllers{
         catch (e) {
             console.error("Error creando receta:", e);
             res.status(400).send({
-                success:false
+                success:false,
+                message: e.message
             });
         }
 
     };
     updateReceta = async (req, res) => {
         try{
-            const {id} = req.body;
-            const receta = await this.recetaService.updateRecetaService(id);
+            const {id}= req.params;
+            const {nombre,tipo,llevaCarne} = req.body;
+            const updatedData = {nombre,tipo,llevaCarne};
+            const receta = await this.recetaService.updateRecetaService(id,updatedData);
             res.status(200).send(receta);
         }catch (e) {
             res.status(400).send({
@@ -44,7 +48,7 @@ class RecetaControllers{
     };
     deleteReceta = async (req, res) => {
         try{
-            const {id} = req.body;
+            const {id}= req.params;
             const receta = await this.recetaService.deleteUserService(id)
             res.status(200).send(receta);
         }catch (e) {

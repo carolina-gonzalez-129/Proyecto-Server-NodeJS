@@ -16,16 +16,16 @@ app.use('/app', routes);
 app.use((req, res, next) => {
     res.status(404).send({
         success: false,
-        message: 'No se encontro xdddd desde app, el start va con nodemon'
+        message: 'Not found'
 
     });
 });
 
-await User.sync()
+await User.sync({ force: false })
 
-await Receta.sync()
+await Receta.sync({ force: false })
 
-const port = process.env.PORT || 2406;
+const port = process.env.PORT || 2412;
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });

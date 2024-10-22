@@ -31,6 +31,7 @@ class RecetaService{
             return receta;
         }catch (e) {
             throw e;
+
         }
 
     }
