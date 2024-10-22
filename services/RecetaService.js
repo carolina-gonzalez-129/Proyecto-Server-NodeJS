@@ -1,3 +1,4 @@
+
 import Receta from "../models/Receta.js";
 import User from "../models/User.js";
 //dsps el controller de recetas le va a invocar estos metodos a recetaservice
@@ -17,10 +18,11 @@ class RecetaService{
     }
     getRecetaByIdService = async (id)=>{
         try {
-            const receta = Receta.findByPk(id);
+            const receta = await Receta.findByPk(id);
             if(!receta){
                 throw new Error('No se encontro la receta con el id proporcionado')
             }
+            return receta;
         }catch (e){
             throw e;
         }
@@ -43,7 +45,6 @@ class RecetaService{
                 throw new Error('Receta no encontrada');
             }
             await receta.update(updatedData);
-            return { message: 'Informacion actualizada' };
             return receta;
         } catch (e) {
             throw e;

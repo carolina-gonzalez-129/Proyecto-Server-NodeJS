@@ -11,14 +11,19 @@ class RecetaControllers{
         }
     };
     getRecetaById = async (req, res) => {
-        const {id}= req.params;
-        const receta = await this.recetaService.getRecetaByIdService(id)
-        res.status(200).send(receta);
+        try {
+            const {id}= req.params;
+            const receta = await this.recetaService.getRecetaByIdService(id)
+            res.status(200).send(receta);
+        }catch (e) {
+            res.status(404).send("No se encontro la receta");
+        }
+
     };
     createReceta = async (req, res) => {
         try{
             const {nombre,tipo,llevaCarne} = req.body;
-            const receta = await this.recetaService.createRecetaService(nombre,tipo,llevaCarne)
+            const receta = await this.recetaService.createRecetaService({ nombre, tipo, llevaCarne });
             res.status(200).send({success:true,message:receta});
         }
         catch (e) {

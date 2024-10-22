@@ -13,17 +13,18 @@ Receta.init({
             }
         }
     },
-    tipo:{
-        type: DataTypes.ENUM('argentina','oriental','europea','otra'),
-        allowNull:false,
-        validate:{
-            customValidator(value){
-                if(value!=='argentina'|| value!=='oriental' || value!=='europea' || value!=='otra'){
-                    throw new Error('la receta debe ser oriental, europea, argentina, u otra(sin especificar cual)')
+        tipo: {
+            type: DataTypes.ENUM('argentina', 'oriental', 'europea', 'otra'),
+            allowNull: false,
+            validate: {
+                customValidator(value) {
+                    const validValues = ['argentina', 'oriental', 'europea', 'otra'];
+                    if (!validValues.includes(value)) {
+                        throw new Error('La receta debe ser oriental, europea, argentina, u otra (sin especificar caul)');
+                    }
                 }
             }
-        }
-    },
+        },
     llevaCarne:{
         type:DataTypes.BOOLEAN,
         allowNull :false
