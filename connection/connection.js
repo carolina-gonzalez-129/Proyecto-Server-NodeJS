@@ -1,12 +1,11 @@
-import {Sequelize} from 'sequelize'
+import { Sequelize } from 'sequelize';
+import {DB_USER, DB_PORT, DB_PASS, DB_HOST, DB_DIALECT, DB_NAME } from "../config/config.js";
 
-const connection = new Sequelize('nueva', 'caro', 'teodiosequele32040!!!!', {
-    host: 'localhost',
-    dialect: 'mysql',
-    port:3306,
+const connection = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
+    host: DB_HOST,
+    dialect: DB_DIALECT,
+    port: DB_PORT,
 });
-
-//el profe uso el root como user, yo use mi usuario caro a quien le conferi todos los privilegios de un admin
 
 try {
     await connection.authenticate();
