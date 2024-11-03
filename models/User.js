@@ -11,13 +11,16 @@ class User extends Model{}
 User.init({
     name : {
         type: DataTypes.STRING,
+        allowNull:false,
+        notEmpty:true,
+        unique: true,
         //por default pueden ser null por eso tengo q aclarar si no quiero q lo sean
-        allowNull: false ,
         validate: {
             len: {
-                args: [1, 50], // longitud min y max
+                args: [1, 50],
                 msg: "El nombre debe tener entre 1 y 50 caracteres."
-            }
+            },
+
         }
     },
     mail:{
@@ -25,6 +28,7 @@ User.init({
         allowNull:false,
         unique: true,
         validate: {
+            //es una built in function la de isEmail,
             isEmail: {
                 msg: "El correo debe ser una dirección de correo válida."
             }
@@ -34,12 +38,27 @@ User.init({
     password:{
         type:DataTypes.STRING,
         allowNull:false,
+        notEmpty: true,
         validate:{
+            isAlphanumeric:{
+                msg:'La contrasenia debe contener letras y numeros'
+            },
             len: {
                 args: [6, 100],
-                msg: "la long min es 6 y la max 100"
+                msg: "la pass debe constar de 6 a 100 caracteres alfanumericos"
             }
         }
+    },
+    RoleId:{
+        type:DataTypes.INTEGER,
+        defaultValue:2,
+        references: {
+            model: "roles",
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+
     }
 
 },

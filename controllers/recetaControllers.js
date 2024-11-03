@@ -1,3 +1,4 @@
+
 import RecetaService from "../services/RecetaService.js";
 class RecetaControllers{
    recetaService = new RecetaService();
@@ -22,8 +23,8 @@ class RecetaControllers{
     };
     createReceta = async (req, res) => {
         try{
-            const {nombre,tipo,llevaCarne} = req.body;
-            const receta = await this.recetaService.createRecetaService({ nombre, tipo, llevaCarne });
+            const {nombre,tipo,llevaCarne,UserId} = req.body;
+            const receta = await this.recetaService.createRecetaService({ nombre, tipo, llevaCarne,UserId });
             res.status(200).send({success:true,message:receta});
         }
         catch (e) {
@@ -54,7 +55,7 @@ class RecetaControllers{
     deleteReceta = async (req, res) => {
         try{
             const {id}= req.params;
-            const receta = await this.recetaService.deleteUserService(id)
+            const receta = await this.recetaService.deleteRecetaService(id);
             res.status(200).send(receta);
         }catch (e) {
             res.status(400).send({

@@ -1,6 +1,7 @@
 
-import Receta from "../models/Receta.js";
-import User from "../models/User.js";
+import {Receta} from "../models/index.js"
+import {User} from "../models/index.js"
+
 //dsps el controller de recetas le va a invocar estos metodos a recetaservice
 //asimismo los metodos del controller q hacen referencia a esos pedidos
 //van a ser invocados por el recetasRoutes q realice las distintas solicitudes http
@@ -51,7 +52,7 @@ class RecetaService{
         }
     }
 
-    deleteUserService = async (id) => {
+    deleteRecetaService = async (id) => {
         try {
             const receta = await Receta.findByPk(id);
             if (!receta) {

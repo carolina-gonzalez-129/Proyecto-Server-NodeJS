@@ -1,40 +1,45 @@
-import { Sequelize, Model,DataTypes} from 'sequelize'
+import { Sequelize, Model, DataTypes } from 'sequelize';
 import connection from "../connection/connection.js";
 
-class Receta  extends Model{}
+class Receta extends Model {}
 Receta.init({
-    nombre : {
+    nombre: {
         type: DataTypes.STRING,
-        allowNull: false ,
+        allowNull: false,
         validate: {
             len: {
                 args: [5, 30],
-                msg: "El nombre de la receta debe constar de entre 5 y 30 caracteres "
+                msg: "El nombre de la receta debe constar de entre 5 y 30 caracteres"
             }
         }
     },
-        tipo: {
-            type: DataTypes.ENUM('argentina', 'oriental', 'europea', 'otra'),
-            allowNull: false,
-            validate: {
-                customValidator(value) {
-                    const validValues = ['argentina', 'oriental', 'europea', 'otra'];
-                    if (!validValues.includes(value)) {
-                        throw new Error('La receta debe ser oriental, europea, argentina, u otra (sin especificar caul)');
-                    }
-                }
+    tipo: {
+        type: DataTypes.ENUM('argentina', 'oriental', 'europea', 'otra'),
+        allowNull: false,
+        validate: {
+            isIn: {
+                args: [['argentina', 'oriental', 'europea', 'otra']],
+                msg: 'La receta debe ser argentina, oriental, europea o "otra".'
             }
+        }
+    },
+    llevaCarne: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
+    UserId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'users',
+            key: 'id'
         },
-    llevaCarne:{
-        type:DataTypes.BOOLEAN,
-        allowNull :false
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
     }
-},
-{ sequelize:connection,
-    modelName:'Receta',
+}, {
+    sequelize: connection,
+    modelName: 'Receta',
     timestamps: false
-
-}
-)
+});
 
 export default Receta;

@@ -1,21 +1,28 @@
 
-import User from "../models/User.js";
+import {User,Role,Receta} from "../models/index.js"
 
 
 class UserService{
 
     getAllUsersService = async () => {
         try {
-            const users = await User.findAll();
+            const users = await User.findAll({
+                include: [
+                    {
+                        model: Role,
+                        attributes: ['name'],
+                    },
+                ],
+            });
             return users;
         } catch (e) {
             throw e;
         }
     }
 
-    getUserByIdService = async (id) => {
+    getUserByIdService = async (id,options) => {
         try {
-            const user = await User.findByPk(id);
+            const user = await User.findByPk(id,options);
             if (!user) {
                 throw new Error('Usuario no encontrado');
             }
@@ -30,7 +37,7 @@ class UserService{
             const user = await User.create({name,mail,password})
             return user;
         }catch (e) {
-            console.error("Error al crear :", error);
+            console.error("Error al crear :", e.message);
          throw e;
         }
 

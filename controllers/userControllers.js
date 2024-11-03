@@ -1,5 +1,5 @@
 import UserService from "../services/UserService.js";
-
+import {Receta} from "../models/index.js"
 
 class UserControllers {
     userService = new UserService();
@@ -17,7 +17,12 @@ class UserControllers {
             //recordar q es por parametros y no por body xq no recibo un cuerpo
             //comosi en post u update
             const {id}= req.params;
-            const user = await this.userService.getUserByIdService(id);
+            const user = await this.userService.getUserByIdService(id, {
+                include: [{
+                    model: Receta
+                }]
+            });
+
             res.status(200).send(user);
         }
         catch (e) {
@@ -27,8 +32,8 @@ class UserControllers {
     };
     createUser = async (req, res) => {
         try{
-            const {name,mail,password} = req.body;
-            const user = await this.userService.createUserService(name,mail,password);
+            const {name,mail,password,RoleId} = req.body;
+            const user = await this.userService.createUserService(name,mail,password,RoleId);
             res.status(200).send({message:user});
         }
         catch (e) {
@@ -44,8 +49,8 @@ success:false,
     updateUser = async (req, res) => {
         try{
             const {id}= req.params;
-            const { name, mail, password } = req.body;
-            const updatedData = { name, mail, password };
+            const { name, mail, password,RoleId } = req.body;
+            const updatedData = { name, mail, password,RoleId };
             const user = await this.userService.updateUserService(id,updatedData);
             res.status(200).send(user);
         }catch (e) {
