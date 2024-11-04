@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 
     });
 });
-await connection.sync({force:true});
+await connection.sync({force:false});
 
 const port = process.env.PORT || 2412;
 app.listen(port, () => {

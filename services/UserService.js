@@ -32,9 +32,9 @@ class UserService{
         }
     }
 
-   createUserService= async (name,mail,password)=>{
+   createUserService= async (name,mail,password,RoleId)=>{
         try{
-            const user = await User.create({name,mail,password})
+            const user = await User.create({name,mail,password,RoleId})
             return user;
         }catch (e) {
             console.error("Error al crear :", e.message);
