@@ -1,27 +1,84 @@
-###
- GET http://localhost:8088/app/user
-Accept: application/json
-
-###
-
-
-POST http://localhost:8088/app/recetas
+POST http://localhost:8088/app/user
 Accept: application/json
 Content-Type: application/json
+
+{
+  "name": "Carolina",
+  "mail": "caro@hotmail.com",
+  "password": "caro123",
+  "RoleId": 1
+}
+###
+GET http://localhost:8088/app/user/1
+Accept: application/json
+###
+POST  http://localhost:8088/app/recetas
+Accept:application/json
+Content-Type:application/json
 
 {
   "nombre": "Milanga",
   "tipo": "argentina",
-  "llevaCarne" : "true"
+  "llevaCarne" : "true",
+  "UserId": 4
 }
 ###
-
-PUT http://localhost:8088/app/user/1
-Content-Type: application/json
+POST  http://localhost:8088/app/recetas
+Accept:application/json
+Content-Type:application/json
 
 {
-  "name": "Caro",
-  "mail": "carolina@mail.com",
-  "password": "password123"
+  "nombre": "Locro",
+  "tipo": "argentina",
+  "llevaCarne" : "true",
+  "UserId": 4
 }
+###
+POST  http://localhost:8088/app/recetas
+Accept:application/json
+Content-Type:application/json
 
+{
+  "nombre": "Puchero",
+  "tipo": "argentina",
+  "llevaCarne" : "true",
+  "UserId": 4
+}
+###
+PUT http://localhost:8088/app/user/45
+Accept: application/json
+###
+PUT http://localhost:8088/app/user/4
+Accept: application/json
+Content-Type: application/json
+{
+"name": "Carou",
+"mail": "caro@hotmail.com",
+"password": "caro123",
+"RoleId": 1
+}
+###
+POST http://localhost:8088/app/user/login
+Accept:application/json
+Content-Type:application/json
+
+{
+  "mail":"caro@hotmail.com",
+  "password": "caru123"
+}
+###
+POST http://localhost:8088/app/user/login
+Accept:application/json
+Content-Type:application/json
+
+{
+  "mail":"caro@hotmail.com",
+  "password": " $2b$10$Q8PmT2cRANde4Ww7c7AwvONtzwkVty5cmL6Gh9puzI2MASBjZ/mRG "
+}
+###
+GET http://localhost:8088/app/user
+Accept: application/json
+###
+DELETE http://localhost:8088/app/user/4
+Accept:application/json
+###

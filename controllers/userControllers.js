@@ -67,6 +67,20 @@ success:false,
             throw (e);
         }
     };
+    login= async (req,res)=>{
+       try {
+           const {mail, password} = req.body;
+           const user = await this.userService.loginUserService({mail, password});
+           res.status(200).send(user);
+           return user;
+       }catch (e) {
+           res.status(500).json({
+               message: 'Ocurrió un error en el proceso de login. Por favor, intenta nuevamente.',
+               error: e.message
+           });
+           console.log('Ocurrio un problema',e)
+       }
+    }
 }
 
 export default UserControllers;

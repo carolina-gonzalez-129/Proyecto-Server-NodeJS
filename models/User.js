@@ -1,12 +1,17 @@
 import { Sequelize, Model,DataTypes} from 'sequelize'
 import connection from "../connection/connection.js";
-
+import bcrypt from "bcrypt"
 //sequelize me provee un monton de constrains y validaciones
 // usar de aca : https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/
 //si o si usarlo!
 
 
-class User extends Model{}
+class User extends Model{
+   comparePass = async (password) => {
+        const comparePass = await bcrypt.compare(password, this.password);
+        return comparePass;
+    };
+}
 //x defecto ya usa lo de id autoincremental
 User.init({
     name : {
@@ -48,7 +53,8 @@ User.init({
                 msg: "la pass debe constar de 6 a 100 caracteres alfanumericos"
             }
         }
-    },
+    }
+        ,
     RoleId:{
         type:DataTypes.INTEGER,
         defaultValue:2,
@@ -70,5 +76,11 @@ User.init({
 
 )
 
+User.beforeCreate(async (user)=>{
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(user.password,salt)
+    user.password=hash;
+})
 
 export default User;

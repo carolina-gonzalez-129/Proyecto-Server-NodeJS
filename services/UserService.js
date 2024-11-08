@@ -70,6 +70,21 @@ class UserService{
             throw e;
         }
     }
+    loginUserService = async (user) => {
+        try {
+            const {mail,password} = user;
+            const data = await User.findOne({where: {mail} });
+            if (!data) {
+                throw new Error('No se encontro al user');
+            }
+            const comparePass = await data.comparePass(password);
+            return data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    };
+
 
 }
 
