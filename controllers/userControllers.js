@@ -7,15 +7,20 @@ class UserControllers {
     getAllUsers = async (req, res) => {
         try {
             const users = await this.userService.getAllUsersService();
-            res.status(200).send(users);
+
+            if(users.length===0){
+                res.status(404).send("No hay usuarios");
+            }
+            else{
+                res.status(200).send(users);
+            }
         } catch (error) {
-            res.status(404).send("no hay usuarios");
+            res.status(404).send('Ocurrio un error :', error.message);
         }
     };
     getUserById = async (req, res) => {
         try{
-            //recordar q es por parametros y no por body xq no recibo un cuerpo
-            //comosi en post u update
+
             const {id}= req.params;
             const user = await this.userService.getUserByIdService(id, {
                 include: [{
@@ -54,7 +59,11 @@ success:false,
             const user = await this.userService.updateUserService(id,updatedData);
             res.status(200).send(user);
         }catch (e) {
-            throw (e);
+
+            res.status(400).send({
+                success:false,
+                message: 'No se pudo modificar al usuario. Error: ' + (e.message)
+            });
         }
 
     };
@@ -64,7 +73,12 @@ success:false,
             const user = await this.userService.deleteUserService(id);
             res.status(200).send(user);
         }catch (e) {
-            throw (e);
+            console.error("Error eliminando al user:", e);
+            res.status(400).send({
+
+                success:false,
+                message: 'No se pudo eliminar al usuario. Error: ' + (e.message)
+            });
         }
     };
     login= async (req,res)=>{

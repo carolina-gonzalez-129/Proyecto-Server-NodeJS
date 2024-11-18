@@ -20,17 +20,15 @@ class RecetaService{
     getRecetaByIdService = async (id)=>{
         try {
             const receta = await Receta.findByPk(id);
-            if(!receta){
-                throw new Error('No se encontro la receta con el id proporcionado')
-            }
+
             return receta;
         }catch (e){
             throw e;
         }
     }
-    createRecetaService = async(nombre,tipo,llevaCarne) =>{
+    createRecetaService = async(nombre,tipo,llevaCarne,UserId) =>{
         try {
-            const receta = await Receta.create(nombre,tipo,llevaCarne)
+            const receta = await Receta.create(nombre,tipo,llevaCarne,UserId)
             return receta;
         }catch (e) {
             throw e;
@@ -43,7 +41,7 @@ class RecetaService{
         try {
             const receta = await Receta.findByPk(id);
             if (!receta) {
-                throw new Error('Receta no encontrada');
+                throw new Error('No se encontro la receta para modificar')
             }
             await receta.update(updatedData);
             return receta;
