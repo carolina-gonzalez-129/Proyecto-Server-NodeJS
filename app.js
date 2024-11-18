@@ -7,6 +7,19 @@ import roleSeed from "./seed/roleSeed.js";
 //import userSeed from "./seed/userSeed.js";
 dotenv.config();
 
+const inicializarServer = async()=>{
+    try {
+        await connection.sync({force:true});
+        await roleSeed()
+//await userSeed()
+        const port = process.env.PORT || 8089;
+        app.listen(port, () => {
+            console.log(`Server running at http://localhost:${port}`);
+        });
+    }catch (e) {
+       console.error(e)
+    }
+}
 const app = express();
 
 app.use(express.json());
@@ -22,12 +35,7 @@ app.use((req, res, next) => {
 
     });
 });
-await connection.sync({force:true});
-await roleSeed()
-//await userSeed()
-const port = process.env.PORT || 8089;
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+
+await inicializarServer();
 
 
