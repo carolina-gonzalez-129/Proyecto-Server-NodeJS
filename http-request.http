@@ -20,7 +20,7 @@ Content-Type:application/json
   "nombre": "Milanga",
   "tipo": "argentina",
   "llevaCarne" : "true",
-  "UserId": 4
+  "UserId": 1
 }
 ###
 POST  http://localhost:8088/app/recetas
@@ -31,7 +31,7 @@ Content-Type:application/json
   "nombre": "Locro",
   "tipo": "argentina",
   "llevaCarne" : "true",
-  "UserId": 4
+  "UserId": 1
 }
 ###
 POST  http://localhost:8088/app/recetas

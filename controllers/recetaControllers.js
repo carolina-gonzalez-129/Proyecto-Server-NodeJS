@@ -8,7 +8,10 @@ class RecetaControllers{
         try {
             const recetas = await this.recetaService.getAllRecetasService();
             if(recetas.length===0){
-                res.status(404).send("No hay recetas aun");
+                res.status(404).send({
+                    success:false,
+                    message:'No hay recetas aun'
+                })
             }
             else{
                 res.status(200).send(recetas);
@@ -23,7 +26,10 @@ class RecetaControllers{
             const {id}= req.params;
             const receta = await this.recetaService.getRecetaByIdService(id)
            if(!receta){
-               res.status(404).send("No se encontro la receta");
+               res.status(404).send({
+                   success:false,
+                   message:'No se encontro a la receta con el id que enviaste, por favor chequealo y corregilo e intenta nuevamente'
+               })
            }
            else{
                res.status(200).send(receta);
@@ -56,6 +62,14 @@ class RecetaControllers{
             const {nombre,tipo,llevaCarne,UserId} = req.body;
             const updatedData = {nombre,tipo,llevaCarne,UserId};
             const receta = await this.recetaService.updateRecetaService(id,updatedData);
+            //agregue esto para q lidie con 2 cases o bien no la tiene y es un 404  o bien la tiene pero
+            //se cometen violaciones a las validaciones de modifcar, por eso aadi en el catch lo del 400 (bad request)
+            if(!receta){
+                res.status(404).send({
+                    success:false,
+                    message: 'No se pudo modificar la receta. Error: ' + (e.message)
+                });
+            }
             res.status(200).send(receta);
 
         }catch (e) {

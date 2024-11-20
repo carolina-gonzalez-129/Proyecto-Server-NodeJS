@@ -35,7 +35,7 @@ User.init({
         validate: {
             //es una built in function la de isEmail,
             isEmail: {
-                msg: "El correo debe ser una dirección de correo válida."
+                msg: "El correo debe ser una dirección de correo valida."
             }
         }
 

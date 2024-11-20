@@ -7,15 +7,17 @@ class UserControllers {
     getAllUsers = async (req, res) => {
         try {
             const users = await this.userService.getAllUsersService();
-
             if(users.length===0){
-                res.status(404).send("No hay usuarios");
+                res.status(404).send({
+                    success:false,
+                    message:'No hay usuarios cargados todavia'
+                })
             }
             else{
                 res.status(200).send(users);
             }
         } catch (error) {
-            res.status(404).send('Ocurrio un error :', error.message);
+            res.status(400).send('Ocurrio un error :', error.message);
         }
     };
     getUserById = async (req, res) => {
@@ -31,7 +33,10 @@ class UserControllers {
             res.status(200).send(user);
         }
         catch (e) {
-            res.status(404).send('No encontre al usuario con el id q me enviaste')
+            res.status(404).send({
+                success:false,
+                message:'No se encontro al user con el id que enviaste, por favor chequealo y corregilo e intenta nuevamente'
+            })
         }
 
     };
@@ -57,9 +62,14 @@ success:false,
             const { name, mail, password,RoleId } = req.body;
             const updatedData = { name, mail, password,RoleId };
             const user = await this.userService.updateUserService(id,updatedData);
+            if(!user){
+                res.status(404).send({
+                    success:false,
+                    message: 'No se pudo modificar al user. Error: ' + (e.message)
+                });
+            }
             res.status(200).send(user);
         }catch (e) {
-
             res.status(400).send({
                 success:false,
                 message: 'No se pudo modificar al usuario. Error: ' + (e.message)
@@ -75,7 +85,6 @@ success:false,
         }catch (e) {
             console.error("Error eliminando al user:", e);
             res.status(400).send({
-
                 success:false,
                 message: 'No se pudo eliminar al usuario. Error: ' + (e.message)
             });
